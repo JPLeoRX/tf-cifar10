@@ -15,13 +15,13 @@ def scale_image(image, label):
 def build_model():
     # Declare model architecture
     model = tf.keras.Sequential([
-        tf.keras.layers.Conv2D(48, 3, activation='relu', padding='same', input_shape=(32, 32, 3)),
-        tf.keras.layers.Conv2D(48, 3, activation='relu', padding='same'),
+        tf.keras.layers.Conv2D(96, 3, activation='relu', padding='same', input_shape=(32, 32, 3)),
+        tf.keras.layers.Conv2D(96, 3, activation='relu', padding='same'),
         tf.keras.layers.MaxPooling2D(2, 2),
         tf.keras.layers.Dropout(0.3),
 
-        tf.keras.layers.Conv2D(128, 3, activation='relu', padding='same'),
-        tf.keras.layers.Conv2D(128, 3, activation='relu', padding='same'),
+        tf.keras.layers.Conv2D(256, 3, activation='relu', padding='same'),
+        tf.keras.layers.Conv2D(256, 3, activation='relu', padding='same'),
         tf.keras.layers.MaxPooling2D(2, 2),
         tf.keras.layers.Dropout(0.4),
 
