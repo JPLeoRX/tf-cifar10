@@ -18,17 +18,17 @@ def build_model():
         tf.keras.layers.Conv2D(48, 3, activation='relu', padding='same', input_shape=(32, 32, 3)),
         tf.keras.layers.Conv2D(48, 3, activation='relu', padding='same'),
         tf.keras.layers.MaxPooling2D(2, 2),
-        tf.keras.layers.Dropout(0.25),
-
-        tf.keras.layers.Conv2D(96, 3, activation='relu', padding='same'),
-        tf.keras.layers.Conv2D(96, 3, activation='relu', padding='same'),
-        tf.keras.layers.MaxPooling2D(2, 2),
         tf.keras.layers.Dropout(0.3),
 
+        tf.keras.layers.Conv2D(128, 3, activation='relu', padding='same'),
+        tf.keras.layers.Conv2D(128, 3, activation='relu', padding='same'),
+        tf.keras.layers.MaxPooling2D(2, 2),
+        tf.keras.layers.Dropout(0.4),
+
         tf.keras.layers.Conv2D(256, 3, activation='relu', padding='same'),
         tf.keras.layers.Conv2D(256, 3, activation='relu', padding='same'),
         tf.keras.layers.MaxPooling2D(2, 2),
-        tf.keras.layers.Dropout(0.4),
+        tf.keras.layers.Dropout(0.5),
         tf.keras.layers.Flatten(),
 
         tf.keras.layers.Dense(10, activation='softmax')
