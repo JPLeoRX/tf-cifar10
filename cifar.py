@@ -25,8 +25,8 @@ def build_model():
         tf.keras.layers.MaxPooling2D(2, 2),
         tf.keras.layers.Dropout(0.4),
 
-        tf.keras.layers.Conv2D(256, 3, activation='relu', padding='same'),
-        tf.keras.layers.Conv2D(256, 3, activation='relu', padding='same'),
+        tf.keras.layers.Conv2D(512, 3, activation='relu', padding='same'),
+        tf.keras.layers.Conv2D(512, 3, activation='relu', padding='same'),
         tf.keras.layers.MaxPooling2D(2, 2),
         tf.keras.layers.Dropout(0.5),
         tf.keras.layers.Flatten(),
