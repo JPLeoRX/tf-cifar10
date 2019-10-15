@@ -15,20 +15,20 @@ def scale_image(image, label):
 def build_model():
     # Declare model architecture
     model = tf.keras.Sequential([
-        tf.keras.layers.Conv2D(96, 3, activation='relu', padding='same', input_shape=(32, 32, 3)),
-        tf.keras.layers.Conv2D(96, 3, activation='relu', padding='same'),
+        tf.keras.layers.Conv2D(100, 3, activation='relu', padding='same', input_shape=(32, 32, 3)),
+        tf.keras.layers.Conv2D(100, 3, activation='relu', padding='same'),
         tf.keras.layers.MaxPooling2D(2, 2),
-        tf.keras.layers.Dropout(0.3),
+        tf.keras.layers.Dropout(0.30),
 
-        tf.keras.layers.Conv2D(256, 3, activation='relu', padding='same'),
-        tf.keras.layers.Conv2D(256, 3, activation='relu', padding='same'),
+        tf.keras.layers.Conv2D(200, 3, activation='relu', padding='same'),
+        tf.keras.layers.Conv2D(200, 3, activation='relu', padding='same'),
         tf.keras.layers.MaxPooling2D(2, 2),
-        tf.keras.layers.Dropout(0.4),
+        tf.keras.layers.Dropout(0.40),
 
-        tf.keras.layers.Conv2D(512, 3, activation='relu', padding='same'),
-        tf.keras.layers.Conv2D(512, 3, activation='relu', padding='same'),
+        tf.keras.layers.Conv2D(300, 3, activation='relu', padding='same'),
+        tf.keras.layers.Conv2D(300, 3, activation='relu', padding='same'),
         tf.keras.layers.MaxPooling2D(2, 2),
-        tf.keras.layers.Dropout(0.5),
+        tf.keras.layers.Dropout(0.45),
         tf.keras.layers.Flatten(),
 
         tf.keras.layers.Dense(10, activation='softmax')
