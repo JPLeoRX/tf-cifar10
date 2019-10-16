@@ -19,33 +19,39 @@ def build_model():
         tf.keras.layers.BatchNormalization(),
         tf.keras.layers.Conv2D(128, 3, activation='relu', padding='same'),
         tf.keras.layers.BatchNormalization(),
+        tf.keras.layers.Conv2D(128, 3, activation='relu', padding='same'),
+        tf.keras.layers.BatchNormalization(),
         tf.keras.layers.MaxPooling2D(2, 2),
-        tf.keras.layers.Dropout(0.4),
+        tf.keras.layers.Dropout(0.5),
 
         tf.keras.layers.Conv2D(256, 3, activation='relu', padding='same'),
         tf.keras.layers.BatchNormalization(),
         tf.keras.layers.Conv2D(256, 3, activation='relu', padding='same'),
         tf.keras.layers.BatchNormalization(),
+        tf.keras.layers.Conv2D(256, 3, activation='relu', padding='same'),
+        tf.keras.layers.BatchNormalization(),
         tf.keras.layers.MaxPooling2D(2, 2),
-        tf.keras.layers.Dropout(0.4),
+        tf.keras.layers.Dropout(0.5),
 
         tf.keras.layers.Conv2D(512, 3, activation='relu', padding='same'),
         tf.keras.layers.BatchNormalization(),
         tf.keras.layers.Conv2D(512, 3, activation='relu', padding='same'),
         tf.keras.layers.BatchNormalization(),
+        tf.keras.layers.Conv2D(512, 3, activation='relu', padding='same'),
+        tf.keras.layers.BatchNormalization(),
         tf.keras.layers.MaxPooling2D(2, 2),
-        tf.keras.layers.Dropout(0.4),
+        tf.keras.layers.Dropout(0.5),
         tf.keras.layers.Flatten(),
 
         tf.keras.layers.Dense(256, activation='relu'),
-        tf.keras.layers.Dropout(0.4),
+        tf.keras.layers.Dropout(0.5),
         tf.keras.layers.Dense(10, activation='softmax')
     ])
 
     # Compile it
     model.compile(
       loss=tf.keras.losses.sparse_categorical_crossentropy,
-      optimizer=tf.keras.optimizers.Adam(learning_rate=0.001),
+      optimizer=tf.keras.optimizers.RMSprop(learning_rate=0.001, decay=1e-6),
       metrics=['accuracy']
     )
 
@@ -88,3 +94,6 @@ model.fit(x=dataset_train, epochs=30)
 model.summary()
 eval_loss, eval_acc = model.evaluate(x=dataset_test)
 print("\nEval loss: {}, Eval Accuracy: {}".format(eval_loss, eval_acc))
+
+# Save the model
+model.save("model.h5")
