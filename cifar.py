@@ -15,36 +15,45 @@ def scale_image(image, label):
 def build_model():
     # Declare model architecture
     model = tf.keras.Sequential([
-        tf.keras.layers.Conv2D(128, 3, activation='relu', padding='same', input_shape=(32, 32, 3)),
+        tf.keras.layers.Conv2D(100, 3, activation='relu', padding='same', input_shape=(32, 32, 3)),
         tf.keras.layers.BatchNormalization(),
-        tf.keras.layers.Conv2D(128, 3, activation='relu', padding='same'),
+        tf.keras.layers.Conv2D(100, 3, activation='relu', padding='same'),
         tf.keras.layers.BatchNormalization(),
-        tf.keras.layers.Conv2D(128, 3, activation='relu', padding='same'),
-        tf.keras.layers.BatchNormalization(),
-        tf.keras.layers.MaxPooling2D(2, 2),
-        tf.keras.layers.Dropout(0.5),
-
-        tf.keras.layers.Conv2D(256, 3, activation='relu', padding='same'),
-        tf.keras.layers.BatchNormalization(),
-        tf.keras.layers.Conv2D(256, 3, activation='relu', padding='same'),
-        tf.keras.layers.BatchNormalization(),
-        tf.keras.layers.Conv2D(256, 3, activation='relu', padding='same'),
+        tf.keras.layers.Conv2D(100, 3, activation='relu', padding='same'),
         tf.keras.layers.BatchNormalization(),
         tf.keras.layers.MaxPooling2D(2, 2),
         tf.keras.layers.Dropout(0.5),
 
-        tf.keras.layers.Conv2D(512, 3, activation='relu', padding='same'),
+        tf.keras.layers.Conv2D(100, 3, activation='relu', padding='same'),
         tf.keras.layers.BatchNormalization(),
-        tf.keras.layers.Conv2D(512, 3, activation='relu', padding='same'),
+        tf.keras.layers.Conv2D(100, 3, activation='relu', padding='same'),
         tf.keras.layers.BatchNormalization(),
-        tf.keras.layers.Conv2D(512, 3, activation='relu', padding='same'),
+        tf.keras.layers.Conv2D(100, 3, activation='relu', padding='same'),
+        tf.keras.layers.BatchNormalization(),
+        tf.keras.layers.MaxPooling2D(2, 2),
+        tf.keras.layers.Dropout(0.5),
+
+        tf.keras.layers.Conv2D(100, 3, activation='relu', padding='same'),
+        tf.keras.layers.BatchNormalization(),
+        tf.keras.layers.Conv2D(100, 3, activation='relu', padding='same'),
+        tf.keras.layers.BatchNormalization(),
+        tf.keras.layers.Conv2D(100, 3, activation='relu', padding='same'),
+        tf.keras.layers.BatchNormalization(),
+        tf.keras.layers.MaxPooling2D(2, 2),
+        tf.keras.layers.Dropout(0.5),
+
+        tf.keras.layers.Conv2D(100, 3, activation='relu', padding='same'),
+        tf.keras.layers.BatchNormalization(),
+        tf.keras.layers.Conv2D(100, 3, activation='relu', padding='same'),
+        tf.keras.layers.BatchNormalization(),
+        tf.keras.layers.Conv2D(100, 3, activation='relu', padding='same'),
         tf.keras.layers.BatchNormalization(),
         tf.keras.layers.MaxPooling2D(2, 2),
         tf.keras.layers.Dropout(0.5),
         tf.keras.layers.Flatten(),
 
-        tf.keras.layers.Dense(256, activation='relu'),
-        tf.keras.layers.Dropout(0.5),
+        # tf.keras.layers.Dense(256, activation='relu'),
+        # tf.keras.layers.Dropout(0.5),
         tf.keras.layers.Dense(10, activation='softmax')
     ])
 
