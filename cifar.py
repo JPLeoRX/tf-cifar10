@@ -15,22 +15,30 @@ def scale_image(image, label):
 def build_model():
     # Declare model architecture
     model = tf.keras.Sequential([
-        tf.keras.layers.Conv2D(100, 3, activation='relu', padding='same', input_shape=(32, 32, 3)),
-        tf.keras.layers.Conv2D(100, 3, activation='relu', padding='same'),
+        tf.keras.layers.Conv2D(128, 3, activation='relu', padding='same', input_shape=(32, 32, 3)),
+        tf.keras.layers.BatchNormalization(),
+        tf.keras.layers.Conv2D(128, 3, activation='relu', padding='same'),
+        tf.keras.layers.BatchNormalization(),
         tf.keras.layers.MaxPooling2D(2, 2),
-        tf.keras.layers.Dropout(0.30),
+        tf.keras.layers.Dropout(0.4),
 
-        tf.keras.layers.Conv2D(200, 3, activation='relu', padding='same'),
-        tf.keras.layers.Conv2D(200, 3, activation='relu', padding='same'),
+        tf.keras.layers.Conv2D(256, 3, activation='relu', padding='same'),
+        tf.keras.layers.BatchNormalization(),
+        tf.keras.layers.Conv2D(256, 3, activation='relu', padding='same'),
+        tf.keras.layers.BatchNormalization(),
         tf.keras.layers.MaxPooling2D(2, 2),
-        tf.keras.layers.Dropout(0.40),
+        tf.keras.layers.Dropout(0.4),
 
-        tf.keras.layers.Conv2D(300, 3, activation='relu', padding='same'),
-        tf.keras.layers.Conv2D(300, 3, activation='relu', padding='same'),
+        tf.keras.layers.Conv2D(512, 3, activation='relu', padding='same'),
+        tf.keras.layers.BatchNormalization(),
+        tf.keras.layers.Conv2D(512, 3, activation='relu', padding='same'),
+        tf.keras.layers.BatchNormalization(),
         tf.keras.layers.MaxPooling2D(2, 2),
-        tf.keras.layers.Dropout(0.45),
+        tf.keras.layers.Dropout(0.4),
         tf.keras.layers.Flatten(),
 
+        tf.keras.layers.Dense(256, activation='relu'),
+        tf.keras.layers.Dropout(0.4),
         tf.keras.layers.Dense(10, activation='softmax')
     ])
 
@@ -53,7 +61,7 @@ print("{} replicas in distribution".format(NUM_OF_WORKERS))
 
 # Determine datasets buffer/batch sizes
 BUFFER_SIZE = 10000
-BATCH_SIZE_PER_REPLICA = 64
+BATCH_SIZE_PER_REPLICA = 128
 BATCH_SIZE = BATCH_SIZE_PER_REPLICA * NUM_OF_WORKERS
 print("{} batch size".format(BATCH_SIZE))
 
@@ -74,7 +82,7 @@ dataset_test = dataset_test_raw.map(scale_image).batch(BATCH_SIZE).with_options(
 # Build and train the model as multi worker
 with strategy.scope():
     model = build_model()
-model.fit(x=dataset_train, epochs=24)
+model.fit(x=dataset_train, epochs=15)
 
 # Show model summary, and evaluate it
 model.summary()
