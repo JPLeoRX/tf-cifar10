@@ -64,7 +64,7 @@ def build_model():
         tf.keras.layers.Dropout(0.5),
         tf.keras.layers.Flatten(),
 
-        tf.keras.layers.Dense(100, activation='relu'),
+        tf.keras.layers.Dense(256, activation='relu'),
         tf.keras.layers.Dense(10, activation='softmax')
     ])
 
