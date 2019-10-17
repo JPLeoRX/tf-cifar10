@@ -1,5 +1,7 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 
+import math
+import random
 import tensorflow as tf
 import tensorflow_datasets as tfds
 
@@ -10,9 +12,21 @@ def flip_image(image, label):
     return image, label
 
 
-# Saturate image
-def saturate_image(image, label):
-    image = tf.image.adjust_saturation(image, 0.2)
+# Rotate image by 3 degrees
+def rotate_image_1(image, label):
+    image = tf.contrib.image.rotate(image, math.radians(3))
+    return image, label
+
+
+# Rotate image by -3 degrees
+def rotate_image_2(image, label):
+    image = tf.contrib.image.rotate(image, math.radians(-3))
+    return image, label
+
+
+# Brighten image by 20%
+def brighten_image(image, label):
+    image = tf.image.adjust_brightness(image, 0.2)
     return image, label
 
 
@@ -27,43 +41,27 @@ def scale_image(image, label):
 def build_model():
     # Declare model architecture
     model = tf.keras.Sequential([
-        tf.keras.layers.Conv2D(100, 3, activation='relu', padding='same', input_shape=(32, 32, 3)),
-        tf.keras.layers.BatchNormalization(),
-        tf.keras.layers.Conv2D(100, 3, activation='relu', padding='same'),
-        tf.keras.layers.BatchNormalization(),
-        tf.keras.layers.Conv2D(100, 3, activation='relu', padding='same'),
-        tf.keras.layers.BatchNormalization(),
-        tf.keras.layers.MaxPooling2D(2, 2),
-        tf.keras.layers.Dropout(0.5),
+        tf.keras.layers.Conv2D(100, 3, activation='relu', padding='same', input_shape=(32, 32, 3)), tf.keras.layers.BatchNormalization(),
+        tf.keras.layers.Conv2D(100, 3, activation='relu', padding='same'), tf.keras.layers.BatchNormalization(),
+        tf.keras.layers.Conv2D(100, 3, activation='relu', padding='same'), tf.keras.layers.BatchNormalization(),
+        tf.keras.layers.MaxPooling2D(2, 2), tf.keras.layers.Dropout(0.5),
 
-        tf.keras.layers.Conv2D(100, 3, activation='relu', padding='same'),
-        tf.keras.layers.BatchNormalization(),
-        tf.keras.layers.Conv2D(100, 3, activation='relu', padding='same'),
-        tf.keras.layers.BatchNormalization(),
-        tf.keras.layers.Conv2D(100, 3, activation='relu', padding='same'),
-        tf.keras.layers.BatchNormalization(),
-        tf.keras.layers.MaxPooling2D(2, 2),
-        tf.keras.layers.Dropout(0.5),
+        tf.keras.layers.Conv2D(100, 3, activation='relu', padding='same'), tf.keras.layers.BatchNormalization(),
+        tf.keras.layers.Conv2D(100, 3, activation='relu', padding='same'), tf.keras.layers.BatchNormalization(),
+        tf.keras.layers.Conv2D(100, 3, activation='relu', padding='same'), tf.keras.layers.BatchNormalization(),
+        tf.keras.layers.MaxPooling2D(2, 2), tf.keras.layers.Dropout(0.5),
 
-        tf.keras.layers.Conv2D(100, 3, activation='relu', padding='same'),
-        tf.keras.layers.BatchNormalization(),
-        tf.keras.layers.Conv2D(100, 3, activation='relu', padding='same'),
-        tf.keras.layers.BatchNormalization(),
-        tf.keras.layers.Conv2D(100, 3, activation='relu', padding='same'),
-        tf.keras.layers.BatchNormalization(),
-        tf.keras.layers.MaxPooling2D(2, 2),
-        tf.keras.layers.Dropout(0.5),
+        tf.keras.layers.Conv2D(100, 3, activation='relu', padding='same'), tf.keras.layers.BatchNormalization(),
+        tf.keras.layers.Conv2D(100, 3, activation='relu', padding='same'), tf.keras.layers.BatchNormalization(),
+        tf.keras.layers.Conv2D(100, 3, activation='relu', padding='same'), tf.keras.layers.BatchNormalization(),
+        tf.keras.layers.MaxPooling2D(2, 2), tf.keras.layers.Dropout(0.5),
 
-        tf.keras.layers.Conv2D(100, 3, activation='relu', padding='same'),
-        tf.keras.layers.BatchNormalization(),
-        tf.keras.layers.Conv2D(100, 3, activation='relu', padding='same'),
-        tf.keras.layers.BatchNormalization(),
-        tf.keras.layers.Conv2D(100, 3, activation='relu', padding='same'),
-        tf.keras.layers.BatchNormalization(),
-        tf.keras.layers.MaxPooling2D(2, 2),
-        tf.keras.layers.Dropout(0.5),
+        tf.keras.layers.Conv2D(100, 3, activation='relu', padding='same'), tf.keras.layers.BatchNormalization(),
+        tf.keras.layers.Conv2D(100, 3, activation='relu', padding='same'), tf.keras.layers.BatchNormalization(),
+        tf.keras.layers.Conv2D(100, 3, activation='relu', padding='same'), tf.keras.layers.BatchNormalization(),
+        tf.keras.layers.MaxPooling2D(2, 2), tf.keras.layers.Dropout(0.5),
+
         tf.keras.layers.Flatten(),
-
         tf.keras.layers.Dense(256, activation='relu'),
         tf.keras.layers.Dense(10, activation='softmax')
     ])
@@ -80,13 +78,29 @@ def build_model():
     return model
 
 
+# Augment dataset
+def augment_dataset(dataset_train_raw):
+    dataset_train_flipped = dataset_train_raw.map(flip_image)
+    dataset_train_rotated_1 = dataset_train_raw.map(rotate_image_1)
+    dataset_train_rotated_2 = dataset_train_raw.map(rotate_image_2)
+
+    #dataset_train_original_and_flipped = dataset_train_raw.concatenate(dataset_train_flipped)
+    #dataset_train_original_and_flipped_rotated_1 = dataset_train_original_and_flipped.map(rotate_image_1)
+    #dataset_train_original_and_flipped_rotated_2 = dataset_train_original_and_flipped.map(rotate_image_2)
+
+    #dataset_train_original_and_flipped_and_rotated = dataset_train_original_and_flipped.concatenate(dataset_train_original_and_flipped_rotated_1).concatenate(dataset_train_original_and_flipped_rotated_2)
+    #dataset_train_original_and_flipped_and_rotated_brightened = dataset_train_original_and_flipped_and_rotated.map(brighten_image)
+
+    #dataset_train_original_and_flipped_and_rotated_and_brightened = dataset_train_original_and_flipped_and_rotated.concatenate(dataset_train_original_and_flipped_and_rotated_brightened)
+    return dataset_train_raw.concatenate(dataset_train_flipped).concatenate(dataset_train_rotated_1).concatenate(dataset_train_rotated_2)
+
 # Define distributed strategy
 strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy()
 NUM_OF_WORKERS = strategy.num_replicas_in_sync
 print("{} replicas in distribution".format(NUM_OF_WORKERS))
 
 # Determine datasets buffer/batch sizes
-BUFFER_SIZE = 10000
+BUFFER_SIZE = 20000
 BATCH_SIZE_PER_REPLICA = 128
 BATCH_SIZE = BATCH_SIZE_PER_REPLICA * NUM_OF_WORKERS
 print("{} batch size".format(BATCH_SIZE))
@@ -102,7 +116,8 @@ dataset_test_raw = datasets['test']
 # Prepare training/testing dataset
 options = tf.data.Options()
 options.experimental_distribute.auto_shard = False
-dataset_train = dataset_train_raw.concatenate(dataset_train_raw.map(flip_image)).map(scale_image).shuffle(BUFFER_SIZE).batch(BATCH_SIZE).with_options(options)
+dataset_train_augmented = augment_dataset(dataset_train_raw)
+dataset_train = dataset_train_augmented.map(scale_image).shuffle(BUFFER_SIZE).batch(BATCH_SIZE).with_options(options)
 dataset_test = dataset_test_raw.map(scale_image).batch(BATCH_SIZE).with_options(options)
 
 # Build and train the model as multi worker
