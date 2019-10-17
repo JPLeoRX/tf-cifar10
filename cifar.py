@@ -64,8 +64,7 @@ def build_model():
         tf.keras.layers.Dropout(0.5),
         tf.keras.layers.Flatten(),
 
-        # tf.keras.layers.Dense(256, activation='relu'),
-        # tf.keras.layers.Dropout(0.5),
+        tf.keras.layers.Dense(100, activation='relu'),
         tf.keras.layers.Dense(10, activation='softmax')
     ])
 
@@ -109,7 +108,7 @@ dataset_test = dataset_test_raw.map(scale_image).batch(BATCH_SIZE).with_options(
 # Build and train the model as multi worker
 with strategy.scope():
     model = build_model()
-model.fit(x=dataset_train, epochs=30)
+model.fit(x=dataset_train, epochs=60)
 
 # Show model summary, and evaluate it
 model.summary()
