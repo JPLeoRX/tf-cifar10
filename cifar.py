@@ -4,6 +4,18 @@ import tensorflow as tf
 import tensorflow_datasets as tfds
 
 
+# Flip image
+def flip_image(image, label):
+    image = tf.image.flip_left_right(image)
+    return image, label
+
+
+# Saturate image
+def saturate_image(image, label):
+    image = tf.image.adjust_saturation(image, 0.2)
+    return image, label
+
+
 # Pixel values, which are 0-255, have to be normalized to the 0-1 range. Define this scale in a function.
 def scale_image(image, label):
     image = tf.cast(image, tf.float32)
@@ -60,7 +72,7 @@ def build_model():
     # Compile it
     model.compile(
       loss=tf.keras.losses.sparse_categorical_crossentropy,
-      optimizer=tf.keras.optimizers.RMSprop(learning_rate=0.001, decay=1e-6),
+      optimizer=tf.keras.optimizers.RMSprop(learning_rate=0.001, momentum=0.9, decay=1e-6),
       metrics=['accuracy']
     )
 
@@ -91,7 +103,7 @@ dataset_test_raw = datasets['test']
 # Prepare training/testing dataset
 options = tf.data.Options()
 options.experimental_distribute.auto_shard = False
-dataset_train = dataset_train_raw.map(scale_image).shuffle(BUFFER_SIZE).batch(BATCH_SIZE).with_options(options)
+dataset_train = dataset_train_raw.concatenate(dataset_train_raw.map(flip_image)).map(scale_image).shuffle(BUFFER_SIZE).batch(BATCH_SIZE).with_options(options)
 dataset_test = dataset_test_raw.map(scale_image).batch(BATCH_SIZE).with_options(options)
 
 # Build and train the model as multi worker
