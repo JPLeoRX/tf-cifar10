@@ -24,12 +24,6 @@ def rotate_image_2(image, label):
     return image, label
 
 
-# Brighten image by 20%
-def brighten_image(image, label):
-    image = tf.image.adjust_brightness(image, 0.2)
-    return image, label
-
-
 # Pixel values, which are 0-255, have to be normalized to the 0-1 range. Define this scale in a function.
 def scale_image(image, label):
     image = tf.cast(image, tf.float32)
@@ -83,15 +77,6 @@ def augment_dataset(dataset_train_raw):
     dataset_train_flipped = dataset_train_raw.map(flip_image)
     dataset_train_rotated_1 = dataset_train_raw.map(rotate_image_1)
     dataset_train_rotated_2 = dataset_train_raw.map(rotate_image_2)
-
-    #dataset_train_original_and_flipped = dataset_train_raw.concatenate(dataset_train_flipped)
-    #dataset_train_original_and_flipped_rotated_1 = dataset_train_original_and_flipped.map(rotate_image_1)
-    #dataset_train_original_and_flipped_rotated_2 = dataset_train_original_and_flipped.map(rotate_image_2)
-
-    #dataset_train_original_and_flipped_and_rotated = dataset_train_original_and_flipped.concatenate(dataset_train_original_and_flipped_rotated_1).concatenate(dataset_train_original_and_flipped_rotated_2)
-    #dataset_train_original_and_flipped_and_rotated_brightened = dataset_train_original_and_flipped_and_rotated.map(brighten_image)
-
-    #dataset_train_original_and_flipped_and_rotated_and_brightened = dataset_train_original_and_flipped_and_rotated.concatenate(dataset_train_original_and_flipped_and_rotated_brightened)
     return dataset_train_raw.concatenate(dataset_train_flipped).concatenate(dataset_train_rotated_1).concatenate(dataset_train_rotated_2)
 
 # Define distributed strategy
