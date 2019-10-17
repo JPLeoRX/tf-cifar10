@@ -15,7 +15,6 @@ NUM_OF_WORKERS = strategy.num_replicas_in_sync
 print("{} replicas in distribution".format(NUM_OF_WORKERS))
 
 # Determine datasets buffer/batch sizes
-BUFFER_SIZE = 20000
 BATCH_SIZE_PER_REPLICA = 128
 BATCH_SIZE = BATCH_SIZE_PER_REPLICA * NUM_OF_WORKERS
 print("{} batch size".format(BATCH_SIZE))
